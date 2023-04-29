@@ -21,11 +21,11 @@ Role.init(
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
         },
-        name: {
+        title: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
-        }   
+        } 
     },
     // link to database connection and config settings 
     // for how to create this table
