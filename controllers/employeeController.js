@@ -3,7 +3,7 @@ const connection = require('../config');
 const getEmployees = async (req, res) => {
     try {
         const [ rows ] = await connection.query(
-            `SELECT * FROM employee RIGHT JOIN role ON employee.role_id = role.id;`
+            `SELECT * FROM employee LEFT JOIN role ON employee.role_id = role.id;`
         );
         res.status(200).json(rows);
     }
@@ -27,7 +27,21 @@ const addEmployee = async (req, res) => {
     }
 };
 
+const updateEmployeeRole = async (req, res) => {
+    try {
+        const [ rows ] = await connection.query(
+            'UPDATE employee SET role_id = ? WHERE id = ?',
+            [req.body.role_id, req.params.id]
+        );
+        res.status(200).json({ message: 'Employee role updated successfully!' });
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+};
+
 module.exports = {
     getEmployees,
-    addEmployee
+    addEmployee,
+    updateEmployeeRole
 };
