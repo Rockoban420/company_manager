@@ -4,27 +4,27 @@ CREATE DATABASE company;
 USE company;
 
 CREATE TABLE department (
-    id INT NOT NULL AUTO_INCREMENT,
+    d_id INT AUTO_INCREMENT,
     name VARCHAR(30) NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (d_id)
 );
     
 
 CREATE TABLE role (
-    id INT NOT NULL AUTO_INCREMENT,
+    r_id INT AUTO_INCREMENT,
     title  VARCHAR(30) NOT NULL,
     salary DECIMAL NOT NULL,
     department_id INT,
-    PRIMARY KEY (id),
-    FOREIGN KEY (department_id) REFERENCES department(id)
+    PRIMARY KEY (r_id),
+    FOREIGN KEY (department_id) REFERENCES department(d_id)
 );
 
 CREATE TABLE employee (
-    id INT NOT NULL AUTO_INCREMENT,
+    e_id INT AUTO_INCREMENT,
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
     role_id INT NOT NULL,
-    manager_id INT,
-    PRIMARY KEY (id),
-    FOREIGN KEY (role_id) REFERENCES role(id)
+    manager_id VARCHAR(30),
+    PRIMARY KEY (e_id),
+    FOREIGN KEY (role_id) REFERENCES role(r_id)
 );

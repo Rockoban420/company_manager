@@ -1,7 +1,13 @@
 import inquirer from 'inquirer';
 import consoleTable from 'console.table';
 
+
+// Main menu
+
 const questions = () => {
+
+
+
   inquirer.prompt([
     {
       name: 'menu',
@@ -9,6 +15,7 @@ const questions = () => {
       type: 'rawlist',
       choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
     }
+
   ]).then(answers => {
     switch (answers.menu) {
       case 'View All Employees':
@@ -36,7 +43,6 @@ const questions = () => {
         break;
 
       case 'Add Department':
-        console.log('helloDepartment');
         addDepartment();
         break;
 
@@ -46,6 +52,16 @@ const questions = () => {
     }
   });
 };
+
+
+
+
+// End of main menu
+
+
+
+// Switch functions for main menu
+
 
 const addDepartment = () => {
   inquirer.prompt([
@@ -257,25 +273,14 @@ const updateEmployeeRole = () => {
 };
 
 const dataDisplayer = (data) => {
-  const columns = [];
-  for (const key in data[0]) {
-    columns.push(key);
-  }
-  const rows = [];
-  for (const obj of data) {
-    const row = [];
-    for (const key in obj) {
-      row.push(obj[key]);
-    }
-    rows.push(row);
-  }
-  console.table(columns, rows);
+  console.table(data);
   questions();
 };
 
 
-function index_init() { }
+// End of switch functions for main menu
+
+// Main menu call
 
 questions();
 
-index_init();

@@ -4,7 +4,7 @@ const connection = require('../config');
 const getAllRoles = async (req, res) => {
     try {
         const [rows] = await connection.query(
-            'SELECT * FROM role LEFT JOIN department ON role.department_id = department.d_id;'
+            'SELECT r_id, title, salary, name FROM role LEFT JOIN department ON role.department_id = department.d_id;'
             );
         res.json(rows);
     } catch (err) {
