@@ -4,7 +4,7 @@ const connection = require('../config');
 const getAllRoles = async (req, res) => {
     try {
         const [rows] = await connection.query(
-            'SELECT * FROM role LEFT JOIN department ON role.department_id = department.id'
+            'SELECT * FROM role LEFT JOIN department ON role.department_id = department.d_id;'
             );
         res.json(rows);
     } catch (err) {
@@ -14,7 +14,7 @@ const getAllRoles = async (req, res) => {
 
 const addRole = async (req, res) => {
     try {
-        const [rows] = await connection.query('INSERT INTO role SET ?', req.body);
+        const [rows] = await connection.query('INSERT INTO role SET ?;', req.body);
         res.json(rows);
     } catch (err) {
         res.status(500).json(err);

@@ -3,7 +3,7 @@ const connection = require('../config');
 // Get all departments
 const getAllDepartments = async (req, res) => {
     try {
-        const [rows] = await connection.query('SELECT * FROM department');
+        const [rows] = await connection.query('SELECT * FROM department;');
         res.json(rows);
     } catch (err) {
         res.status(500).json(err);
@@ -12,7 +12,7 @@ const getAllDepartments = async (req, res) => {
 
 const addDepartment = async (req, res) => {
     try {
-        const [rows] = await connection.query('INSERT INTO department SET ?', req.body);
+        const [rows] = await connection.query('INSERT INTO department SET ?;', req.body);
         res.json(rows);
     } catch (err) {
         res.status(500).json(err);

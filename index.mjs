@@ -81,6 +81,18 @@ const viewAllDepartments = () => {
 };
 
 const addRole = () => {
+  fetch('http://localhost:3001/api/department', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }}).then(function (response) {
+    return response.json();
+  })
+    .then(function (data) {
+      const departmentChoices = data.map((department) => ({
+        name: department.name,
+        value: department.d_id,
+      }));
   inquirer.prompt([
     {
       name: 'title',
@@ -95,7 +107,8 @@ const addRole = () => {
     {
       name: 'department_id',
       message: 'What is the department id of the role?',
-      type: 'input',
+      type: 'rawlist',
+      choices: departmentChoices,
     }
   ]).then(answers => {
     fetch('http://localhost:3001/api/role', {
@@ -107,6 +120,7 @@ const addRole = () => {
     });
     questions();
   });
+});
 };
 
 const viewAllRoles = () => {
@@ -138,6 +152,19 @@ const viewAllEmployees = () => {
 };
 
 const addEmployee = () => {
+  fetch('http://localhost:3001/api/role', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).then(function (response) {
+    return response.json();
+  })
+    .then(function (data) {
+      const roleChoices = data.map((role) => ({
+        name: role.title,
+        value: role.r_id,
+      }));
   inquirer.prompt([
     {
       name: 'first_name',
@@ -152,7 +179,8 @@ const addEmployee = () => {
     {
       name: 'role_id',
       message: 'What is the employees role?',
-      type: 'input',
+      type: 'rawlist',
+      choices: roleChoices,
     },
     {
       name: 'manager_id',
@@ -160,7 +188,6 @@ const addEmployee = () => {
       type: 'input',
     }
   ])
-
     .then(answers => {
       fetch('http://localhost:3001/api/employee', {
         method: 'POST',
@@ -171,10 +198,23 @@ const addEmployee = () => {
       });
       questions();
     });
+  });
 };
 
-const updateEmployeeRole = (id) => {
-
+const updateEmployeeRole = () => {
+  fetch('http://localhost:3001/api/role', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).then(function (response) {
+    return response.json();
+  })
+    .then(function (data) {
+      const roleChoices = data.map((role) => ({
+        name: role.title,
+        value: role.r_id,
+      }));
   fetch('http://localhost:3001/api/employee', {
     method: 'GET',
     headers: {
@@ -184,23 +224,26 @@ const updateEmployeeRole = (id) => {
     return response.json();
   })
     .then(function (data) {
-      const employeeList = data;
-    });
-
+      const employeeList = data.map((employee) => ({
+        name: `${employee.first_name} ${employee.last_name}`,
+        value: employee.e_id,
+      }));
   inquirer.prompt([
+    {
+      name: 'role_id',
+      message: 'What is the employees new role?',
+      type: 'list',
+      choices: roleChoices
+    },
     {
       name: 'employee_id',
       message: 'What is the employees id?',
       type: 'rawlist',
       choices: employeeList
-    },
-    {
-      name: 'role_id',
-      message: 'What is the employees new role? (n*)',
-      type: 'input',
     }
   ]).then(answers => {
-  fetch(`/api/employee/:${id}`, {
+    console.log(answers);
+  fetch('http://localhost:3001/api/employee', {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -208,6 +251,8 @@ const updateEmployeeRole = (id) => {
     body: JSON.stringify(answers),
   });
   questions();
+});
+});
 });
 };
 

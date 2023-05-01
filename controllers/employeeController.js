@@ -3,7 +3,7 @@ const connection = require('../config');
 const getEmployees = async (req, res) => {
     try {
         const [ rows ] = await connection.query(
-            `SELECT * FROM employee LEFT JOIN role ON employee.role_id = role.id;`
+            'SELECT * FROM employee INNER JOIN role ON employee.role_id = role.r_id;'
         );
         res.status(200).json(rows);
     }
@@ -16,7 +16,7 @@ const getEmployees = async (req, res) => {
 const addEmployee = async (req, res) => {
     try {
         const [ rows ] = await connection.query(
-            'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)',
+            'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?);',
             [req.body.first_name, req.body.last_name, req.body.role_id, req.body.manager_id]
         );
         res.status(200).json({ message: 'Employee added successfully!' });
@@ -29,9 +29,10 @@ const addEmployee = async (req, res) => {
 
 const updateEmployeeRole = async (req, res) => {
     try {
+        console.log(req.body);
         const [ rows ] = await connection.query(
-            'UPDATE employee SET role_id = ? WHERE id = ?',
-            [req.body.role_id, req.params.id]
+            'UPDATE employee SET role_id = ? WHERE e_id = ?;',
+            [req.body.role_id, req.body.employee_id]
         );
         res.status(200).json({ message: 'Employee role updated successfully!' });
     }
